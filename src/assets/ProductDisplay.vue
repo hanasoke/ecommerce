@@ -25,43 +25,35 @@
                         </div>
                     </div>
                 </div>
-                <div v-else class="product-container" >
+                <div v-else class="product-container">
                     <div class="product-thumbnail">
                         <img :src="product.data.image" alt="">
                     </div>
                     <div class="product-details">
                         <div class="top">
-                            <h3 :class="product.data.category === 'men\s clothing' ? 'font-navy' : 'font-magenta'" class="title">{{ product.data.title }}</h3>
+                            <h3 :class="product.data.category === 'men\'s clothing' ? 'font-navy' : 'font-magenta'" class="title">{{ product.data.title }}</h3>
                             <div class="sub-title">
                                 <span>{{ product.data.category }}</span>
-
                                 <div class="rating">
-                                    <span>
-                                        {{ product.data.rating.rate }}/5
-                                    </span>
+                                    <span>{{ product.data.rating.rate }}/5</span>
                                     <div class="rating">
-                                        <span :class="product.data.category === 'men\'s clothing' ? 'bg-navy' :
-                                        'bg-magenta'" class="circle"></span>
-                                        <span :class="product.data.category === 'men\'s clothing' ? 'bg-navy' : 
-                                        'bg-magenta'" class="circle" ></span>
+                                        <span :class="product.data.category === 'men\'s clothing' ? 'bg-navy' : 'bg-magenta'" class="circle"></span>
+                                        <span :class="product.data.category === 'men\'s clothing' ? 'bg-navy' : 'bg-magenta'" class="circle"></span>
+                                        <span :class="product.data.category === 'men\'s clothing' ? 'bg-navy' : 'bg-magenta'" class="circle"></span>
                                         <span :class="product.data.category === 'men\'s clothing' ? 'bg-navy' : 'bg-magenta'" class="circle"></span>
                                         <span :class="product.data.category === 'men\'s clothing' ? 'bg-navy' : 'bg-magenta'" class="circle"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="description">
-                                <p>
-                                    {{ product.data.description }}
-                                </p>
+                                <p>{{ product.data.description }}</p>
                             </div>
                         </div>
                         <div class="bottom">
                             <span :class="product.data.category === 'men\'s clothing' ? 'font-navy' : 'font-magenta'" class="price">${{ product.data.price }}</span>
                             <div class="cta">
                                 <button type="button" :class="product.data.category === 'men\'s clothing' ? 'bg-navy' : 'bg-magenta'" class="cta-buy">Buy Now</button>
-                                <button type="button" @click="getSingleProduct()" :class="product.data.category === 'men\'s clothing' ? 'border-navy font-navy' : 'border-magenta font-magenta'" class="cta-next">
-                                    Next Product
-                                </button>
+                                <button type="button" @click="getSingleProduct()" :class="product.data.category === 'men\'s clothing' ? 'border-navy font-navy' : 'border-magenta font-magenta'" class="cta-next">Next Product</button>
                             </div>
                         </div>
                     </div>
@@ -89,14 +81,31 @@ export default {
             return result;
         },
         async getSingleProduct() {
-            
+            this.isLoading = true;
+
+            if (this.index !== 20) {
+                this.index++
+            } else {
+                this.index = 1;
+            }
+
+            let data = await this.callAPI()
+            if (data.category === "men's clothing" || data.category === "women's clothing") {
+                this.product = { data }
+                this.isProductAvailable = true;
+            } else {
+                this.isProductAvailable = false;
+            }
+
+            this.isLoading = false;
         }
-    }
-
+    },
+    mounted() {
+        this.getSingleProduct();
+    },
 }
-
 </script>
 
-<style>
-    @import '../assets/style/page.css';
+<style scoped>
+    @import '../assets/style/page.css'
 </style>

@@ -1,16 +1,14 @@
 <template>
-    <div id="app" class="bg-gray-100">
-        <NotificationPage msg="Welcome to Your Vue.js App"/>
-    </div>
+    <ProductDisplay/>
 </template>
 
 <script>
-import NotificationPage from './components/ProductDisplay.vue'
+import ProductDisplay from './components/ProductDisplay.vue'
 
 export default {
     name: 'App',
     components: {
-        NotificationPage
+        ProductDisplay
     }
 }
 </script>
